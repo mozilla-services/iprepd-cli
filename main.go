@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/mozilla-services/iprepd-cli/commands"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -17,7 +18,8 @@ var appflags = []cli.Flag{
 }
 
 var appcmds = []cli.Command{
-	// add cmds here
+	commands.ConfigCmd,
+	commands.VersionCmd,
 }
 
 func main() {
