@@ -39,7 +39,7 @@ var ReputationCmd = cli.Command{
 			Action: reputationGetHandler,
 		},
 		{
-			Name:  "set",
+			Name:  "update",
 			Usage: "update the entry for a given object",
 			Flags: []cli.Flag{
 				asMandatory(objectFlag),
@@ -47,29 +47,29 @@ var ReputationCmd = cli.Command{
 				withDefault(typeFlag, "ip"),
 				decayAfterFlag,
 			},
-			Before: reputationSetValidator,
-			Action: reputationSetHandler,
+			Before: reputationUpdateValidator,
+			Action: reputationUpdateHandler,
 		},
 		{
-			Name:  "clear",
+			Name:  "delete",
 			Usage: "delete the entry for a given object",
 			Flags: []cli.Flag{
 				asMandatory(objectFlag),
 				withDefault(typeFlag, "ip"),
 			},
-			Before: reputationClearValidator,
-			Action: reputationClearHandler,
+			Before: reputationDeleteValidator,
+			Action: reputationDeleteHandler,
 		},
 		{
-			Name:  "batch-clear",
+			Name:  "batch-delete",
 			Usage: "delete the entries for all objects in a given file",
 			Flags: []cli.Flag{
 				asMandatory(payloadFlag),
 				withDefault(typeFlag, "ip"),
 				exitOnFailFlag,
 			},
-			Before: reputationBatchClearValidator,
-			Action: reputationBatchClearHandler,
+			Before: reputationBatchDeleteValidator,
+			Action: reputationBatchDeleteHandler,
 		},
 	},
 }
@@ -78,15 +78,15 @@ func reputationGetValidator(ctx *cli.Context) error {
 	return assertSet(ctx, objectFlag)
 }
 
-func reputationSetValidator(ctx *cli.Context) error {
+func reputationUpdateValidator(ctx *cli.Context) error {
 	return assertSet(ctx, objectFlag, scoreFlag)
 }
 
-func reputationClearValidator(ctx *cli.Context) error {
+func reputationDeleteValidator(ctx *cli.Context) error {
 	return assertSet(ctx, objectFlag)
 }
 
-func reputationBatchClearValidator(ctx *cli.Context) error {
+func reputationBatchDeleteValidator(ctx *cli.Context) error {
 	return assertSet(ctx, payloadFlag)
 }
 
@@ -167,7 +167,7 @@ func reputationGetHandler(ctx *cli.Context) error {
 	return nil
 }
 
-func reputationSetHandler(ctx *cli.Context) error {
+func reputationUpdateHandler(ctx *cli.Context) error {
 	typ := ctx.String(name(typeFlag))
 	obj := ctx.String(name(objectFlag))
 	rep := ctx.Int(name(scoreFlag))
@@ -189,7 +189,7 @@ func reputationSetHandler(ctx *cli.Context) error {
 	return nil
 }
 
-func reputationClearHandler(ctx *cli.Context) error {
+func reputationDeleteHandler(ctx *cli.Context) error {
 	typ := ctx.String(name(typeFlag))
 	obj := ctx.String(name(objectFlag))
 	client, err := getClient(ctx)
@@ -203,7 +203,7 @@ func reputationClearHandler(ctx *cli.Context) error {
 	return nil
 }
 
-func reputationBatchClearHandler(ctx *cli.Context) error {
+func reputationBatchDeleteHandler(ctx *cli.Context) error {
 	typ := ctx.String(name(typeFlag))
 	path := ctx.String(name(payloadFlag))
 	e := ctx.Bool(name(exitOnFailFlag))
