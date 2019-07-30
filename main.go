@@ -21,6 +21,7 @@ var appcmds = []cli.Command{
 	commands.ConfigCmd,
 	commands.VersionCmd,
 	commands.ReputationCmd,
+	commands.ViolationCmd,
 }
 
 func main() {
