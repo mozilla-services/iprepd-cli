@@ -1,8 +1,8 @@
 package commands
 
 import (
+	"github.com/mozilla-services/iprepd-cli/config"
 	"go.mozilla.org/iprepd"
-	"go.mozilla.org/iprepd/tool/config"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
