@@ -123,12 +123,6 @@ func reputationListHandler(ctx *cli.Context) error {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"TYPE", "OBJECT", "SCORE"})
 	for _, entry := range entries {
-		if entry.Object == "" {
-			if entry.IP != "" {
-				table.Append([]string{"ip (legacy entry)", entry.IP, strconv.Itoa(entry.Reputation)})
-			}
-			continue
-		}
 		table.Append([]string{entry.Type, entry.Object, strconv.Itoa(entry.Reputation)})
 	}
 	table.Render()
